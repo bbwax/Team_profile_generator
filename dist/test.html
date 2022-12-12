@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>My Team</title>
+
+    <!-- Add styles for the cards -->
+    <style>
+        .card-top {
+            /* Add a different background color for the name section */
+            background-color: #8093e4;
+
+            /* Add some padding to the name section */
+            padding: 10px;
+
+            /* Use flexbox to align the name and title horizontally */
+            display: flex;
+            justify-content: space-between;
+            border-radius: 5px;
+        }
+
+        .employee-card {
+            padding: 20px;
+            margin: 20px;
+            background-color: #c4c6c9;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
+            width: 250px;
+            display: flex;
+            flex-direction: column;
+
+        }
+        .card-container{
+            display: flex;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align: center">My Team</h1>
+
+    <div class="card-container">
+
+        <!-- Create a card for each employee -->
+        <div class="employee-card">
+            <div class="card-top">
+                <h2>Jane Doe</h2>
+            </div>
+            <p>ID: 123456</p>
+            <p>Email: jane.doe@example.com</p>
+        </div>
+        <div class="employee-card">
+            <div class="card-top">
+                <h2>John Doe</h2>
+            </div>
+            <p>ID: 654321</p>
+            <p>Email: john.doe@example.com</p>
+        </div>
+    </div>
+    ...
+</body>
+
+</html>
