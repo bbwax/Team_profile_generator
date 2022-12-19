@@ -2,10 +2,23 @@ const inquirer = require("inquirer");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
+const fs = require('fs');
 const employees = []
 
-function init() {
-    inquirer.prompt([
+
+function done(){
+    const header = `<head><head/>`;
+    let doc = `${header}`
+    for(let i = 0; i < employees.length; i++){
+        const employee = employees[i];
+        const employeeHtml = employee.getHtml();
+        doc = doc.concat(employeeHtml);
+    }
+    fs.writeFileSync("./dist/index.html",doc);
+}
+
+async function init() {
+    const res = await inquirer.prompt([
         //ask questions about what type of employee
         {
             type: "list",
@@ -13,25 +26,28 @@ function init() {
             message: "What is your role??",
             choices: ["intern", "manager", "engineer", "done"]
         },
-    ]).then((res) => {
-        //if enginner ask these else ask 
-        if (res.role == "engineer") {
-            engineerQuestions()
-        } else if(res.role == "intern"){
-            internQuestions()
-        }else if(res.role == "manager"){
-            managerQuestions()
-        }else if(res.role == "done"){
-            //make a function to generate html from responses.
-        }
-    })
+    ])
+
+    //if enginner ask these else ask 
+    if (res.role == "engineer") {
+        engineerQuestions()
+    } else if (res.role == "intern") {
+        internQuestions()
+    } else if (res.role == "manager") {
+        managerQuestions()
+    } else if (res.role == "done") {
+        //make a function to generate html from responses.
+        done()
+    }
 }
 
 
 
+
+
 //make prompt functions for engineer questions ect
-function engineerQuestions() {
-    inquirer.prompt([
+async function engineerQuestions() {
+    const res = await inquirer.prompt([
         //ask questions about engineer
         {
             type: "input",
@@ -53,15 +69,16 @@ function engineerQuestions() {
             name: "github",
             message: "What is your github??"
         }
-    ]).then((res) => {
-        //if enginner ask these else ask 
-        const engineer = new Engineer(res.name, res.id, res.email, res.github);
-        console.log(engineer);
-        employees.push(engineer);
-        console.log(employees);
-        init();
+    ]);
+    //if enginner ask these else ask 
+    const engineer = new Engineer(res.name, res.id, res.email, res.github);
+    console.log(engineer);
+    employees.push(engineer);
+    console.log(employees);
+    init();
+    console.log("init has finished")
 
-    })
+
 
 }
 
