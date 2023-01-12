@@ -3,18 +3,15 @@ const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
 const fs = require('fs');
-const employees = []
+const generateHTML = require("./src/createHTML");
+const employees = [];
 
 
-function done(){
-    const header = `<head><head/>`;
-    let doc = `${header}`
-    for(let i = 0; i < employees.length; i++){
-        const employee = employees[i];
-        const employeeHtml = employee.getHtml();
-        doc = doc.concat(employeeHtml);
-    }
-    fs.writeFileSync("./dist/index.html",doc);
+function done() {
+    let doc = generateHTML(employees);
+    console.log('employees array', employees);
+    console.log( 'generated html', doc);
+    fs.writeFileSync("./dist/index.html", doc);
 }
 
 async function init() {
@@ -39,7 +36,7 @@ async function init() {
         //make a function to generate html from responses.
         done()
     }
-}
+};
 
 
 
@@ -72,18 +69,15 @@ async function engineerQuestions() {
     ]);
     //if enginner ask these else ask 
     const engineer = new Engineer(res.name, res.id, res.email, res.github);
-    console.log(engineer);
     employees.push(engineer);
-    console.log(employees);
     init();
-    console.log("init has finished")
 
 
 
 }
 
-function managerQuestions() {
-    inquirer.prompt([
+async function managerQuestions() {
+    const res = await inquirer.prompt([
         {
             type: "input",
             name: "name",
@@ -106,15 +100,13 @@ function managerQuestions() {
         }
     ]).then((res) => {
         const manager = new Manager(res.name, res.id, res.email, res.officeNumber);
-        console.log(manager);
         employees.push(manager);
-        console.log(manager);
         init();
 
     })
-}
-function internQuestions() {
-    inquirer.prompt([
+};
+async function internQuestions() {
+    const res = await inquirer.prompt([
         {
             type: "input",
             name: "name",
@@ -137,11 +129,12 @@ function internQuestions() {
         }
     ]).then((res) => {
         const intern = new Intern(res.name, res.id, res.email, res.school);
-        console.log(intern);
         employees.push(intern);
-        console.log(intern);
         init();
 
     })
-}
+};
+
+
 init();
+
